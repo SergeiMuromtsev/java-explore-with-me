@@ -38,8 +38,6 @@ public class StatClient extends BaseClient {
                 response.getBody(),
                 new TypeReference<List<ViewStatsDto>>() {}
         );
-
         return viewStatsDtos;
     }
-
 }

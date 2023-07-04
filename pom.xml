@@ -7,7 +7,8 @@
 		<module>stats-server</module>
 		<module>stats-server/client</module>
 		<module>stats-server/dto</module>
-	</modules>
+        <module>stats-server/server</module>
+    </modules>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
