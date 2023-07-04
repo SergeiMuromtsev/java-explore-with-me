@@ -1,4 +1,6 @@
 FROM amazoncorretto:11-alpine-jdk
-COPY target/*.jar app.jar
+COPY server/target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
-#ENV TZ=Asia/Yekaterinburg
+#TODO: Закомментить таймзону перед отправкой на гитхаб
+#RUN apk add --no-cache tzdata
+#ENV TZ=Asia/Krasnoyarsk

@@ -1,4 +1,4 @@
-package ru.practicum;
+package ru.practicum.statserver;
 
 import lombok.*;
 import javax.persistence.*;
@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Stat {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,4 +27,5 @@ public class Stat {
 
     @Column(name = "timestamp", nullable = false)
     private LocalDateTime timestamp;
+
 }

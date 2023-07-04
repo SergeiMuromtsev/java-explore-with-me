@@ -1,8 +1,10 @@
-package ru.practicum;
+package ru.practicum.statserver;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.statdto.StatDto;
+import ru.practicum.statdto.ViewStatsDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,20 +24,15 @@ public class StatServiceImpl implements StatService {
 
     @Transactional(readOnly = true)
     public List<ViewStatsDto> getStat(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
-
-        if (uris == null) { //все uri
+        if (uris == null) {
             if (!unique) {
                 return statRepository.getStatCountForAllIp(start, end);
             }
             return statRepository.getStatCountForUniqueIp(start, end);
         }
-
-        //если не уникальные
         if (!unique) {
             return statRepository.getStatCountForAllIpByUris(start, end, uris);
         }
         return statRepository.getStatCountForUniqueIpByUris(start, end, uris);
     }
-
 }
-

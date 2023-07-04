@@ -1,4 +1,6 @@
-package ru.practicum;
+package ru.practicum.statserver;
+
+import ru.practicum.statdto.StatDto;
 
 public class StatMapper {
 

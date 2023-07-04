@@ -1,4 +1,4 @@
-package ru.practicum;
+package ru.practicum.statclient;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 public class BaseClient {
-
     protected final RestTemplate rest;
     private final String serverUrl;
 
@@ -46,15 +45,11 @@ public class BaseClient {
         ResponseEntity<Object> serverResponse;
         try {
             if (parameters != null) {
-
-                // Получение URI из эндпоинта и Map из параметров,
-                // причем элементом мапы могут быть массивы
                 UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(path);
                 for (Map.Entry<String, Object> entry : parameters.entrySet()) {
                     String key = entry.getKey();
                     Object o = entry.getValue();
                     if (o instanceof List) {
-                        // Требуется явное преобразование объекта в тип список объектов
                         List<Object> l = (List<Object>) o;
                         for (Object elem : l) {
                             builder.queryParam(key, elem);
@@ -92,7 +87,6 @@ public class BaseClient {
         if (response.hasBody()) {
             return responseBuilder.body(response.getBody());
         }
-
         return responseBuilder.build();
     }
 
