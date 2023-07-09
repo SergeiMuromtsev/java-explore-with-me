@@ -28,7 +28,7 @@ public class StatClient extends BaseClient {
         try {
             post("/hit", statDto);
         } catch (Exception e) {
-            log.warn("Error in accessing the server at POST /hit: {}", e.getMessage());
+            log.warn("Access denied POST /hit: {}", e.getMessage());
         }
     }
 
@@ -45,7 +45,7 @@ public class StatClient extends BaseClient {
         try {
             response = get("/stats", parameters);
         } catch (Exception e) {
-            log.warn("Error in accessing the server at GET /stats: {}", e.getMessage());
+            log.warn("Access denied GET /stats: {}", e.getMessage());
             return null;
         }
 
@@ -57,7 +57,7 @@ public class StatClient extends BaseClient {
             );
             return viewStatsDtos;
         } else {
-            log.warn("Error in server response: {}", response.getStatusCode());
+            log.warn("response error: {}", response.getStatusCode());
             return null;
         }
     }

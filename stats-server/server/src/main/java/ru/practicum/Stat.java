@@ -1,4 +1,4 @@
-package ru.practicum.statserver;
+package ru.practicum;
 
 import lombok.*;
 import javax.persistence.*;

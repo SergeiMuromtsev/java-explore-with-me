@@ -1,4 +1,4 @@
-package ru.practicum.statserver;
+package ru.practicum;
 
 import ru.practicum.statdto.StatDto;
 

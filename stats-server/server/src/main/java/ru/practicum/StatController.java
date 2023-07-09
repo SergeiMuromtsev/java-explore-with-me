@@ -1,4 +1,4 @@
-package ru.practicum.statserver;
+package ru.practicum;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,15 +17,6 @@ import java.util.List;
 public class StatController {
 
     private final StatService statService;
-
-    @PostMapping(path = "/hit")
-    @ResponseStatus(HttpStatus.CREATED)
-    public StatDto saveStat(@RequestBody StatDto statDto) {
-        log.info("Begin of Stat save (/hit): {}", statDto.toString());
-        return statService.saveStat(statDto);
-    }
-
-
     //stats?start=2020-05-05%2000:00:00&end=2035-05-05%2000:00:00&uris=/events/1&uris=/events/2&unique=true
     @GetMapping("/stats")
     public List<ViewStatsDto> getStat(@RequestParam(required = true)
@@ -34,8 +25,14 @@ public class StatController {
                                       @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
                                       @RequestParam(required = false) List<String> uris,
                                       @RequestParam(defaultValue = "false") Boolean unique) {
-        log.info("Begin of Stat getting (/stats) for start={}, end={}, uris={}, unique={}", start, end, uris, unique);
+        log.info("getting (/stats) for start={}, end={}, uris={}, unique={}", start, end, uris, unique);
         return statService.getStat(start, end, uris, unique);
     }
 
+    @PostMapping(path = "/hit")
+    @ResponseStatus(HttpStatus.CREATED)
+    public StatDto saveStat(@RequestBody StatDto statDto) {
+        log.info("saving (/hit): {}", statDto.toString());
+        return statService.saveStat(statDto);
+    }
 }
