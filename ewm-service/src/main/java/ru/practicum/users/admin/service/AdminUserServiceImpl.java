@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.exception.NotFoundException;
-import ru.practicum.messages.ExceptionMessages;
-import ru.practicum.messages.LogMessages;
+import ru.practicum.exceptions.NotFoundException;
 import ru.practicum.users.dto.NewUserRequest;
 import ru.practicum.users.dto.UserDto;
 import ru.practicum.users.model.User;
@@ -47,7 +45,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public void deleteUsers(int userId) {
-        repository.findById(userId).orElseThrow(() -> new NotFoundException("DELETE: user not found");
+        repository.findById(userId).orElseThrow(() -> new NotFoundException("DELETE: user not found"));
 
         log.debug("admin DELETE users");
         repository.deleteById(userId);
