@@ -56,6 +56,6 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Transactional(readOnly = true)
     @Override
     public User getUserById(int userId) {
-        return repository.findById(userId).orElseThrow(() -> new NotFoundException("GET: user not found");
+        return repository.findById(userId).orElseThrow(() -> new NotFoundException("GET: user not found"));
     }
 }
