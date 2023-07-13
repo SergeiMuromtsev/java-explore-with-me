@@ -25,19 +25,19 @@ public class AdminUserController {
                                   @RequestParam(name = "from", defaultValue = "0") int from,
                                   @RequestParam(name = "size", defaultValue = "10") int size) {
 
-        return null;
+        return service.getUsers(ids, from, size);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/users")
     public UserDto createUsers(@RequestBody @Valid NewUserRequest newUserRequest) {
-        return null;
+        return service.createUsers(newUserRequest);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/users/{userId}")
     public void deleteUsers(@PathVariable(name = "userId") int userId) {
-
+        service.deleteUsers(userId);
     }
 }
 
