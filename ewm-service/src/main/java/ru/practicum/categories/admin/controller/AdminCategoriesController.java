@@ -22,21 +22,21 @@ public class AdminCategoriesController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/categories")
     public CategoryDto createCategories(@RequestBody @Valid NewCategoryDto newCategoryDto) {
-        log.debug("POST: /categories");
+        log.debug("POST: admin/categories");
         return service.createCategories(newCategoryDto);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/categories/{catId}")
     public void deleteCategories(@PathVariable(name = "catId") int catId) {
-        log.debug("DELETE: /categories/{}", catId);
+        log.debug("DELETE: admin/categories/{}", catId);
         service.deleteCategories(catId);
     }
 
     @PatchMapping(path = "/categories/{catId}")
     public CategoryDto changeCategories(@PathVariable(name = "catId") int catId,
                                         @RequestBody @Valid CategoryDto categoryDto) {
-        log.debug("PATCH: /categories/{}", catId);
+        log.debug("PATCH: admin/categories/{}", catId);
         return service.changeCategories(catId, categoryDto);
     }
 }

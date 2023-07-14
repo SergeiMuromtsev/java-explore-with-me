@@ -11,7 +11,6 @@ import ru.practicum.categories.model.Category;
 import ru.practicum.categories.repository.CategoriesRepository;
 import ru.practicum.exceptions.NotFoundException;
 
-
 import static ru.practicum.categories.mapper.CategoryMapper.toCategory;
 import static ru.practicum.categories.mapper.CategoryMapper.toCategoryDto;
 
