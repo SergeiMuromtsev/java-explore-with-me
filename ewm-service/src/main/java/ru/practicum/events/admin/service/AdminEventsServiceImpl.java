@@ -12,7 +12,7 @@ import ru.practicum.categories.admin.service.AdminCategoriesService;
 import ru.practicum.categories.model.Category;
 import ru.practicum.events.dto.AdminEventRequests;
 import ru.practicum.events.dto.EventDto;
-import ru.practicum.events.dto.UpdateEventAdminRequest;
+import ru.practicum.events.dto.AdminUpdateEventRequest;
 import ru.practicum.events.model.Event;
 import ru.practicum.events.model.EventStatus;
 //import ru.practicum.events.model.QEvent;
@@ -89,47 +89,47 @@ public class AdminEventsServiceImpl implements AdminEventsService {
     }
 
     @Override
-    public EventDto changeEvents(Integer eventId, UpdateEventAdminRequest updateEventAdminRequest) {
+    public EventDto changeEvents(Integer eventId, AdminUpdateEventRequest adminUpdateEventRequest) {
         Event event = repository.findById(eventId).orElseThrow(() -> new NotFoundException(""));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        if (updateEventAdminRequest.getAnnotation() != null) {
-            event.setAnnotation(updateEventAdminRequest.getAnnotation());
+        if (adminUpdateEventRequest.getAnnotation() != null) {
+            event.setAnnotation(adminUpdateEventRequest.getAnnotation());
         }
-        if (updateEventAdminRequest.getCategory() != null) {
-            Category category = categoriesService.findCategoriesById(updateEventAdminRequest.getCategory());
+        if (adminUpdateEventRequest.getCategory() != null) {
+            Category category = categoriesService.findCategoriesById(adminUpdateEventRequest.getCategory());
             event.setCategory(category);
         }
-        if (updateEventAdminRequest.getDescription() != null) {
-            event.setDescription(updateEventAdminRequest.getDescription());
+        if (adminUpdateEventRequest.getDescription() != null) {
+            event.setDescription(adminUpdateEventRequest.getDescription());
         }
-        if (updateEventAdminRequest.getEventDate() != null) {
+        if (adminUpdateEventRequest.getEventDate() != null) {
             LocalDateTime startOldDate = event.getCreatedOn();
-            LocalDateTime startNewDate = LocalDateTime.parse(updateEventAdminRequest.getEventDate(), formatter);
+            LocalDateTime startNewDate = LocalDateTime.parse(adminUpdateEventRequest.getEventDate(), formatter);
 
             if (Duration.between(startOldDate, startNewDate).toMinutes() < Duration.ofHours(1).toMinutes()) {
                 throw new ValidateException("wrong duration - admin events service");
             }
 
-            event.setEventDate(LocalDateTime.parse(updateEventAdminRequest.getEventDate(), formatter));
+            event.setEventDate(LocalDateTime.parse(adminUpdateEventRequest.getEventDate(), formatter));
         }
-        if (updateEventAdminRequest.getLocation() != null) {
-            Location location = locationService.save(updateEventAdminRequest.getLocation());
+        if (adminUpdateEventRequest.getLocation() != null) {
+            Location location = locationService.save(adminUpdateEventRequest.getLocation());
             event.setLocation(location);
         }
-        if (updateEventAdminRequest.getPaid() != null) {
-            event.setPaid(updateEventAdminRequest.getPaid());
+        if (adminUpdateEventRequest.getPaid() != null) {
+            event.setPaid(adminUpdateEventRequest.getPaid());
         }
-        if (updateEventAdminRequest.getParticipantLimit() != null) {
-            event.setParticipantLimit(updateEventAdminRequest.getParticipantLimit());
+        if (adminUpdateEventRequest.getParticipantLimit() != null) {
+            event.setParticipantLimit(adminUpdateEventRequest.getParticipantLimit());
         }
-        if (updateEventAdminRequest.getRequestModeration() != null) {
-            event.setRequestModeration(updateEventAdminRequest.getRequestModeration());
+        if (adminUpdateEventRequest.getRequestModeration() != null) {
+            event.setRequestModeration(adminUpdateEventRequest.getRequestModeration());
         }
 
         if (event.getState().equals(EventStatus.PENDING)) {
-            if (updateEventAdminRequest.getStateAction() != null) {
-                switch (updateEventAdminRequest.getStateAction()) {
+            if (adminUpdateEventRequest.getStateAction() != null) {
+                switch (adminUpdateEventRequest.getStateAction()) {
                     case PUBLISH_EVENT:
                         event.setState(EventStatus.PUBLISHED);
                         break;
@@ -142,8 +142,8 @@ public class AdminEventsServiceImpl implements AdminEventsService {
             throw new ConflictException("conflict admin events service change");
         }
 
-        if (updateEventAdminRequest.getTitle() != null) {
-            event.setTitle(updateEventAdminRequest.getTitle());
+        if (adminUpdateEventRequest.getTitle() != null) {
+            event.setTitle(adminUpdateEventRequest.getTitle());
         }
 
         log.debug("");

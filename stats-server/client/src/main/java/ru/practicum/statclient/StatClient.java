@@ -1,65 +1,57 @@
 package ru.practicum.statclient;
 
 import lombok.extern.slf4j.Slf4j;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import ru.practicum.statdto.StatDto;
-import ru.practicum.statdto.ViewStatsDto;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import ru.practicum.statdto.RequestDto;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
 @Service
 @Slf4j
 public class StatClient extends BaseClient {
-    private ObjectMapper objectMapper = new ObjectMapper();
 
-    public StatClient(@Value("${web-server.url}") String serverUrl) {
-        super(serverUrl);
+    @Value("${stats-server.url}")
+    private String serverUrl;
+
+    @Value("${main-app.name}")
+    private String appMain;
+
+    @Autowired
+    public StatClient(RestTemplateBuilder builder) {
+        super(builder
+                .uriTemplateHandler(new DefaultUriBuilderFactory())
+                .requestFactory(HttpComponentsClientHttpRequestFactory::new)
+                .build()
+        );
     }
 
-    public void saveStat(StatDto statDto) {
-        try {
-            post("/hit", statDto);
-        } catch (Exception e) {
-            log.warn("Access denied POST /hit: {}", e.getMessage());
-        }
+    public void hit(HttpServletRequest request) {
+        RequestDto requestDto = RequestDto.builder()
+                .app(appMain)
+                .uri(request.getRequestURI())
+                .ip(request.getRemoteAddr())
+                .build();
+        post(serverUrl + "/hit", requestDto);
     }
 
-    public List<ViewStatsDto> getStat(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("start", start.format(formatter));
-        parameters.put("end", end.format(formatter));
-        parameters.put("unique", unique);
-        if (uris != null) {
-            parameters.put("uris", uris);
-        }
-        ResponseEntity<Object> response;
-        try {
-            response = get("/stats", parameters);
-        } catch (Exception e) {
-            log.warn("Access denied GET /stats: {}", e.getMessage());
-            return null;
-        }
-
-        if (response.getStatusCode().is2xxSuccessful()) {
-            List<ViewStatsDto> viewStatsDtos = objectMapper.convertValue(
-                    response.getBody(),
-                    new TypeReference<List<ViewStatsDto>>() {
-                    }
-            );
-            return viewStatsDtos;
-        } else {
-            log.warn("response error: {}", response.getStatusCode());
-            return null;
-        }
+    public ResponseEntity<Object> stats(String start,
+                                        String end,
+                                        List<String> uris,
+                                        boolean unique) {
+        Map<String, Object> parameters = Map.of(
+                "start", start,
+                "end", end,
+                "uris", uris,
+                "unique", unique
+        );
+        return get(serverUrl + "/stats?start={start}&end={end}&uris={uris}&unique={unique}", parameters);
     }
-
 }

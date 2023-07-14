@@ -1,6 +1,6 @@
 package ru.practicum.events.model;
 
-public enum UserStateAction {
+public enum UserActionState {
     SEND_TO_REVIEW,
     CANCEL_REVIEW
 }

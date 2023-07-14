@@ -1,6 +1,7 @@
 package ru.practicum;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.statdto.StatDto;
@@ -14,6 +15,7 @@ import java.util.List;
 @Transactional
 public class StatServiceImpl implements StatService {
 
+    @Autowired
     private final StatRepository statRepository;
 
     @Transactional(readOnly = false)

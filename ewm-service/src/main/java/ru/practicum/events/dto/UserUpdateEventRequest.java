@@ -3,15 +3,16 @@ package ru.practicum.events.dto;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-import ru.practicum.events.model.AdminStateAction;
+import ru.practicum.categories.dto.CategoryDto;
+import ru.practicum.events.model.UserActionState;
 import ru.practicum.locations.model.Location;
 
 @Data
 @Builder
-public class UpdateEventAdminRequest {
+public class UserUpdateEventRequest {
     @Length(min = 20, max = 2000)
     private String annotation;
-    private Integer category;
+    private CategoryDto category;
     @Length(min = 20, max = 7000)
     private String description;
     private String eventDate;
@@ -19,7 +20,7 @@ public class UpdateEventAdminRequest {
     private Boolean paid;
     private Integer participantLimit;
     private Boolean requestModeration;
-    private AdminStateAction stateAction;
+    private UserActionState stateAction;
     @Length(min = 3, max = 120)
     private String title;
 }

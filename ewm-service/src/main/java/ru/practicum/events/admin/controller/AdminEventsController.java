@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.events.admin.service.AdminEventsService;
 import ru.practicum.events.dto.AdminEventRequests;
 import ru.practicum.events.dto.EventDto;
-import ru.practicum.events.dto.UpdateEventAdminRequest;
+import ru.practicum.events.dto.AdminUpdateEventRequest;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -34,8 +34,8 @@ public class AdminEventsController {
 
     @PatchMapping(path = "/events/{eventId}")
     public EventDto changeEvents(@PathVariable(name = "eventId") Integer eventId,
-                                     @RequestBody @Valid UpdateEventAdminRequest updateEventAdminRequest) {
+                                     @RequestBody @Valid AdminUpdateEventRequest adminUpdateEventRequest) {
         log.debug("admin PATCH event");
-        return service.changeEvents(eventId, updateEventAdminRequest);
+        return service.changeEvents(eventId, adminUpdateEventRequest);
     }
 }
