@@ -17,25 +17,28 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class AdminEventsController {
-    @Autowired
-    private AdminEventsService service;
+    private final AdminEventsService service;
 
     @GetMapping(path = "/events")
-    public List<EventDto> findEvents(@RequestParam(name = "users", required = false) List<Integer> users,
-                                         @RequestParam(name = "states", required = false) List<String> states,
-                                         @RequestParam(name = "categories", required = false) List<Integer> categories,
-                                         @RequestParam(name = "rangeStart", required = false) String rangeStart,
-                                         @RequestParam(name = "rangeEnd", required = false) String rangeEnd,
-                                         @RequestParam(name = "from", defaultValue = "0") int from,
-                                         @RequestParam(name = "size", defaultValue = "10") int size) {
-        log.debug("admin GET event");
+    public List<EventDto> findEvents(
+            @RequestParam(name = "users", required = false) List<Integer> users,
+            @RequestParam(name = "states", required = false) List<String> states,
+            @RequestParam(name = "categories", required = false) List<Integer> categories,
+            @RequestParam(name = "rangeStart", required = false) String rangeStart,
+            @RequestParam(name = "rangeEnd", required = false) String rangeEnd,
+            @RequestParam(name = "from", defaultValue = "0") int from,
+            @RequestParam(name = "size", defaultValue = "10") int size
+    ) {
+        log.debug("admin GET: event");
         return service.findEvents(AdminEventRequests.of(users, states, categories, rangeStart, rangeEnd, from, size));
     }
 
     @PatchMapping(path = "/events/{eventId}")
-    public EventDto changeEvents(@PathVariable(name = "eventId") Integer eventId,
-                                     @RequestBody @Valid AdminUpdateEventRequest adminUpdateEventRequest) {
-        log.debug("admin PATCH event");
+    public EventDto changeEvents(
+            @PathVariable(name = "eventId") Integer eventId,
+            @RequestBody @Valid AdminUpdateEventRequest adminUpdateEventRequest
+    ) {
+        log.debug("admin PATCH: event");
         return service.changeEvents(eventId, adminUpdateEventRequest);
     }
 }

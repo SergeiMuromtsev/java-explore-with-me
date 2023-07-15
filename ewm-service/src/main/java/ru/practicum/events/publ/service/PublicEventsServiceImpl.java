@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -30,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
 import static ru.practicum.events.mapper.EventsMapper.toEventDto;
 import static ru.practicum.events.mapper.EventsMapper.toListEventShortDto;
 
@@ -38,8 +38,7 @@ import static ru.practicum.events.mapper.EventsMapper.toListEventShortDto;
 @RequiredArgsConstructor
 @Slf4j
 public class PublicEventsServiceImpl implements PublicEventsService {
-    @Autowired
-    private EventsRepository repository;
+    private final EventsRepository repository;
     private final StatClient statClient;
     private final Gson gson = new Gson();
 
@@ -49,7 +48,8 @@ public class PublicEventsServiceImpl implements PublicEventsService {
         List<BooleanExpression> conditions = new ArrayList<>();
 
         if (requests.getText() != null) {
-            conditions.add(event.annotation.containsIgnoreCase(requests.getText()).or(event.description.containsIgnoreCase(requests.getText())));
+            conditions.add(event.annotation.containsIgnoreCase(requests.getText())
+                    .or(event.description.containsIgnoreCase(requests.getText())));
         }
 
         if (requests.hasCategories()) {
@@ -64,7 +64,7 @@ public class PublicEventsServiceImpl implements PublicEventsService {
 
         if (requests.getRangeStart() != null && requests.getRangeEnd() != null) {
             if (requests.getRangeStart().isAfter(requests.getRangeEnd())) {
-                throw new ValidateException("");
+                throw new ValidateException("wrong time");
             } else {
                 conditions.add(event.eventDate.between(requests.getRangeStart(), requests.getRangeEnd()));
             }
@@ -90,7 +90,7 @@ public class PublicEventsServiceImpl implements PublicEventsService {
         Page<Event> eventsPage = repository.findAll(finalCondition, pageRequest);
 
         if (eventsPage.isEmpty()) {
-            throw new NotFoundException("ExceptionMessages.NOT_FOUND_EVENTS_EXCEPTION.label");
+            throw new NotFoundException("events page is empty");
         }
 
         statClient.hit(request);
@@ -99,21 +99,18 @@ public class PublicEventsServiceImpl implements PublicEventsService {
         }
 
         repository.saveAll(eventsPage);
-
-        log.debug("LogMessages.PUBLIC_GET_EVENT.label");
         return toListEventShortDto(eventsPage);
     }
 
     @Override
     public EventDto getEventsById(int eventId, HttpServletRequest request) {
-        Event event = repository.findEventsByIdAndStateIs(eventId, EventStatus.PUBLISHED).orElseThrow(() -> new NotFoundException(""));
+        Event event = repository.findEventsByIdAndStateIs(eventId, EventStatus.PUBLISHED)
+                .orElseThrow(() -> new NotFoundException(String.format("event with id {} not found", eventId)));
 
         statClient.hit(request);
         event.setViews(parseViews(event, request));
 
         repository.save(event);
-
-        log.debug("LogMessages.PUBLIC_GET_EVENT_ID.label, eventId");
         return toEventDto(event);
     }
 

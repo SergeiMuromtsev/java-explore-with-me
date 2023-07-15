@@ -19,8 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class PrivateEventsController {
-    @Autowired
-    private PrivateEventsService privateEventsService;
+    private final PrivateEventsService privateEventsService;
 
     @GetMapping(path = "/{userId}/events")
     public List<EventShortDto> getEventsByUser(@PathVariable(name = "userId") int userId,

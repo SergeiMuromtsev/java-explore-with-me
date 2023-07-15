@@ -1,9 +1,8 @@
 package ru.practicum.events.admin.service;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import ru.practicum.events.dto.EventDto;
 import ru.practicum.events.dto.AdminUpdateEventRequest;
 import ru.practicum.events.model.Event;
 import ru.practicum.events.model.EventStatus;
-//import ru.practicum.events.model.QEvent;
+import ru.practicum.events.model.QEvent;
 import ru.practicum.events.repository.EventsRepository;
 import ru.practicum.exceptions.ConflictException;
 import ru.practicum.exceptions.NotFoundException;
@@ -33,43 +32,40 @@ import static ru.practicum.events.mapper.EventsMapper.toListEventDto;
 
 @Service
 @Transactional
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class AdminEventsServiceImpl implements AdminEventsService {
-    @Autowired
-    private EventsRepository repository;
-    @Autowired
-    private AdminCategoriesService categoriesService;
-    @Autowired
-    private LocationService locationService;
+    private final EventsRepository repository;
+    private final AdminCategoriesService categoriesService;
+    private final LocationService locationService;
 
     @Transactional(readOnly = true)
     @Override
     public List<EventDto> findEvents(AdminEventRequests requests) {
-//        QEvent event = QEvent.event;
+        QEvent event = QEvent.event;
         List<BooleanExpression> conditions = new ArrayList<>();
-//
-//        if (requests.hasUsers()) {
-//            for (Integer id : requests.getUsers()) {
-//                conditions.add(event.initiator.id.eq(id));
-//            }
-//        }
-//
-//        if (requests.hasStates()) {
-//            for (Integer id : requests.getCategories()) {
-//                conditions.add(event.category.id.eq(id));
-//            }
-//        }
-//
-//        if (requests.hasCategories()) {
-//            for (Integer id : requests.getCategories()) {
-//                conditions.add(event.category.id.eq(id));
-//            }
-//        }
-//
-//        if (requests.getRangeStart() != null && requests.getRangeEnd() != null) {
-//            conditions.add(event.eventDate.between(requests.getRangeStart(), requests.getRangeEnd()));
-//        }
+
+        if (requests.hasUsers()) {
+            for (Integer id : requests.getUsers()) {
+                conditions.add(event.initiator.id.eq(id));
+            }
+        }
+
+        if (requests.hasStates()) {
+            for (Integer id : requests.getCategories()) {
+                conditions.add(event.category.id.eq(id));
+            }
+        }
+
+        if (requests.hasCategories()) {
+            for (Integer id : requests.getCategories()) {
+                conditions.add(event.category.id.eq(id));
+            }
+        }
+
+        if (requests.getRangeStart() != null && requests.getRangeEnd() != null) {
+            conditions.add(event.eventDate.between(requests.getRangeStart(), requests.getRangeEnd()));
+        }
 
         PageRequest pageRequest = PageRequest.of(requests.getFrom(), requests.getSize());
         Page<Event> eventsPage;
