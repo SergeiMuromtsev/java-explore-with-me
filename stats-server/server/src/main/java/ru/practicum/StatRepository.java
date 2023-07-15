@@ -2,11 +2,13 @@ package ru.practicum;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import ru.practicum.statdto.ViewStatsDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Repository
 public interface StatRepository extends JpaRepository<Stat, Long> {
 
     @Query("SELECT new ru.practicum.statdto.ViewStatsDto(s.app, s.uri, COUNT(s.ip)) " +

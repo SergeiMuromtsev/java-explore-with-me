@@ -14,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class StatServiceImpl implements StatService {
-
     @Autowired
     private final StatRepository statRepository;
 
