@@ -29,9 +29,11 @@ import static ru.practicum.requests.mapper.RequestsMapper.*;
 @Slf4j
 public class PrivateRequestServiceImpl implements PrivateRequestsService{
 
-    private RequestsRepository repository;
-    private AdminUserService usersService;
-    private PrivateEventsService eventsService;
+    private final RequestsRepository repository;
+
+    private final AdminUserService usersService;
+
+    private final PrivateEventsService eventsService;
 
     @Override
     public List<ParticipationRequestDto> getRequestsByUserOtherEvents(int userId) {
