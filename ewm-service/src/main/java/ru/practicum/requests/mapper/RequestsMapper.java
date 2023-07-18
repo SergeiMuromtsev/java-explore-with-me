@@ -42,7 +42,6 @@ public class RequestsMapper {
                 requestsRejected.add(toParticipationRequestDto(request));
             }
         }
-
         return ConfirmedAndRejectedRequestsListsDto
                 .builder()
                 .confirmedRequests(requestsConfirmed)
