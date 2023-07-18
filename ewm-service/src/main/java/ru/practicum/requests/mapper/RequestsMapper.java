@@ -49,6 +49,4 @@ public class RequestsMapper {
                 .rejectedRequests(requestsRejected)
                 .build();
     }
-
-
 }
