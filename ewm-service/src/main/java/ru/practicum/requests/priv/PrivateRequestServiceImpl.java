@@ -51,14 +51,14 @@ public class PrivateRequestServiceImpl implements PrivateRequestsService {
 
         if (requestDtoList != null && !requestDtoList.isEmpty()) {
             for (ParticipationRequestDto requestDto : requestDtoList) {
-                if (requestDto.getEvent() == eventId) {
+                if (requestDto.getEvent().equals(eventId)) {
                     flag = true;
                     break;
                 }
             }
         }
 
-        if (flag || event.getInitiator().getId() == user.getId() ||
+        if (flag || event.getInitiator().getId().equals(user.getId()) ||
                 (event.getState().equals(EventStatus.PENDING) || event.getState().equals(EventStatus.CANCELED)) ||
                 ((event.getConfirmedRequests() >= event.getParticipantLimit()) && event.getParticipantLimit() != 0)) {
             throw new ConflictException("CONFLICT while creating requestDto");
