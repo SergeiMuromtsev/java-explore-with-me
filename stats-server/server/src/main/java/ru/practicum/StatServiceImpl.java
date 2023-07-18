@@ -15,6 +15,7 @@ import java.util.List;
 @Transactional
 public class StatServiceImpl implements StatService {
     private final StatRepository statRepository;
+
     @Transactional
     public StatDto saveStat(StatDto statDto) {
         Stat stat = StatMapper.toStat(statDto);

@@ -18,6 +18,7 @@ public class StatController {
 
     private final StatService statService;
     //stats?start=2020-05-05%2000:00:00&end=2035-05-05%2000:00:00&uris=/events/1&uris=/events/2&unique=true
+
     @GetMapping("/stats")
     public List<ViewStatsDto> getStat(@RequestParam(required = true)
                                       @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
