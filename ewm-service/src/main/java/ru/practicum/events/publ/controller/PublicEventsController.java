@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.events.dto.EventDto;
 import ru.practicum.events.dto.EventShortDto;
-import ru.practicum.events.dto.OpenEventRequests;
+import ru.practicum.events.dto.PublicEventRequests;
 import ru.practicum.events.publ.service.PublicEventsService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +35,7 @@ public class PublicEventsController {
     ) {
         log.debug("LogMessages.TRY_PUBLIC_GET_EVENT.label");
         return publicEventsService
-                .getEvents(OpenEventRequests.of(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size), request);
+                .getEvents(PublicEventRequests.of(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size), request);
     }
 
     @GetMapping(path = "/events/{eventId}")

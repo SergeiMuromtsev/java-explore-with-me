@@ -35,5 +35,5 @@ public class EventDto {
     private EventStatus state;
     @NotBlank
     private String title;
-    private int views;
+    private Long views;
 }

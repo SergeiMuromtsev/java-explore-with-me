@@ -2,7 +2,6 @@ package ru.practicum.compilations.admin.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.compilations.admin.service.AdminCompilationsService;
@@ -17,8 +16,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class AdminCompilationsController {
-    @Autowired
-    private AdminCompilationsService service;
+    private final AdminCompilationsService service;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/compilations")

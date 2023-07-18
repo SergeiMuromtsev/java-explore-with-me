@@ -1,16 +1,17 @@
 package ru.practicum.statclient;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.DefaultUriBuilderFactory;
-import ru.practicum.statdto.RequestDto;
+import ru.practicum.statdto.StatDto;
+import ru.practicum.statdto.ViewStatsDto;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,40 +19,41 @@ import java.util.Map;
 @Slf4j
 public class StatClient extends BaseClient {
 
-    @Value("${stats-server.url}")
-    private String serverUrl;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Value("${main-app.name}")
-    private String appMain;
-
-    @Autowired
-    public StatClient(RestTemplateBuilder builder) {
-        super(builder
-                .uriTemplateHandler(new DefaultUriBuilderFactory())
-                .requestFactory(HttpComponentsClientHttpRequestFactory::new)
-                .build()
-        );
+    public StatClient(@Value("${stats-server.url}") String serverUrl) {
+        super(serverUrl);
     }
 
-    public void hit(HttpServletRequest request) {
-        RequestDto requestDto = RequestDto.builder()
-                .app(appMain)
-                .uri(request.getRequestURI())
-                .ip(request.getRemoteAddr())
-                .build();
-        post(serverUrl + "/hit", requestDto);
+    public void saveStat(StatDto statDto) {
+        post("/hit", statDto);
     }
 
-    public ResponseEntity<Object> stats(String start,
-                                        String end,
-                                        List<String> uris,
-                                        boolean unique) {
-        Map<String, Object> parameters = Map.of(
-                "start", start,
-                "end", end,
-                "uris", uris,
-                "unique", unique
-        );
-        return get(serverUrl + "/stats?start={start}&end={end}&uris={uris}&unique={unique}", parameters);
+    public List<ViewStatsDto> getStat(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("start", start.format(formatter));
+        parameters.put("end", end.format(formatter));
+        parameters.put("unique", unique);
+        if (uris != null && uris.size() != 0) {
+            parameters.put("uris", uris);
+        }
+
+        ResponseEntity<Object> response;
+        response = get("/stats", parameters);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            List<ViewStatsDto> viewStatsDtos = objectMapper.convertValue(
+                    response.getBody(),
+                    new TypeReference<List<ViewStatsDto>>() {
+                    }
+            );
+            return viewStatsDtos;
+        } else {
+            log.warn("Error in server response: {}", response.getStatusCode());
+            return null;
+        }
     }
+
 }

@@ -7,13 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.events.dto.EventDto;
 import ru.practicum.events.dto.EventShortDto;
-import ru.practicum.events.dto.OpenEventRequests;
+import ru.practicum.events.dto.PublicEventRequests;
 import ru.practicum.events.model.Event;
 import ru.practicum.events.model.EventStatus;
 import ru.practicum.events.model.EventsSort;
@@ -22,13 +20,13 @@ import ru.practicum.events.repository.EventsRepository;
 import ru.practicum.exceptions.NotFoundException;
 import ru.practicum.exceptions.ValidateException;
 import ru.practicum.statclient.StatClient;
-import ru.practicum.statdto.ResponseDto;
+import ru.practicum.statdto.StatDto;
+import ru.practicum.statdto.ViewStatsDto;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 
 import static ru.practicum.events.mapper.EventsMapper.toEventDto;
 import static ru.practicum.events.mapper.EventsMapper.toListEventShortDto;
@@ -43,7 +41,7 @@ public class PublicEventsServiceImpl implements PublicEventsService {
     private final Gson gson = new Gson();
 
     @Override
-    public List<EventShortDto> getEvents(OpenEventRequests requests, HttpServletRequest request) {
+    public List<EventShortDto> getEvents(PublicEventRequests requests, HttpServletRequest request) {
         QEvent event = QEvent.event;
         List<BooleanExpression> conditions = new ArrayList<>();
 
@@ -92,8 +90,9 @@ public class PublicEventsServiceImpl implements PublicEventsService {
         if (eventsPage.isEmpty()) {
             throw new NotFoundException("events page is empty");
         }
-
-        statClient.hit(request);
+        StatDto statDto = new StatDto("ewm-service", request.getRequestURI(),
+                request.getRemoteAddr(), LocalDateTime.now());
+        statClient.saveStat(statDto);
         for (Event eventViewed : eventsPage) {
             eventViewed.setViews(parseViews(eventViewed, request));
         }
@@ -105,31 +104,26 @@ public class PublicEventsServiceImpl implements PublicEventsService {
     @Override
     public EventDto getEventsById(int eventId, HttpServletRequest request) {
         Event event = repository.findEventsByIdAndStateIs(eventId, EventStatus.PUBLISHED)
-                .orElseThrow(() -> new NotFoundException(String.format("event with id {} not found", eventId)));
+                .orElseThrow(() -> new NotFoundException("event with id  not found"));
 
-        statClient.hit(request);
+        StatDto statDto = new StatDto("ewm-service", request.getRequestURI(),
+                request.getRemoteAddr(), LocalDateTime.now());
+        statClient.saveStat(statDto);
         event.setViews(parseViews(event, request));
 
         repository.save(event);
         return toEventDto(event);
     }
 
-    private int parseViews(Event event, HttpServletRequest request) {
-        ResponseEntity<Object> response = statClient.stats(event.getCreatedOn().toString().replace("T", " "),
-                event.getEventDate().toString().replace("T", " "),
-                List.of(request.getRequestURI()),
-                true);
-
-        if (response.getStatusCode().equals(HttpStatus.OK)) {
-            String body = Objects.requireNonNull(response.getBody()).toString()
-                    .replace("[{", "{\"")
-                    .replace("}]", "\"}")
-                    .replace("=", "\":\"")
-                    .replace(", ", "\",\"");
-            ResponseDto responseDto = gson.fromJson(body, ResponseDto.class);
-            return responseDto.getHits().intValue();
+    private Long parseViews(Event event, HttpServletRequest request) {
+        LocalDateTime st = LocalDateTime.now().minusYears(1);
+        LocalDateTime end = LocalDateTime.now().plusYears(1);
+        List<ViewStatsDto> viewStatsDtos = statClient.getStat(st, end, List.of("/events/" + event.getId()), true);
+        if (viewStatsDtos == null || viewStatsDtos.size() == 0) {
+            return 0L;
+        } else {
+            return viewStatsDtos.get(0).getHits();
         }
-        return event.getViews();
     }
 
     private Sort makeOrderByClause(EventsSort sortEvents) {

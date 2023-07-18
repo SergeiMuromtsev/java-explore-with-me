@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface StatRepository extends JpaRepository<Stat, Long> {
-
     @Query("SELECT new ru.practicum.statdto.ViewStatsDto(s.app, s.uri, COUNT(s.ip)) " +
             "FROM Stat s " +
             "WHERE s.timestamp BETWEEN :start AND :end " +
@@ -40,5 +39,4 @@ public interface StatRepository extends JpaRepository<Stat, Long> {
             "GROUP BY s.app, s.uri " +
             "ORDER BY COUNT(s.ip) DESC ")
     List<ViewStatsDto> getStatCountForUniqueIpByUris(LocalDateTime start, LocalDateTime end, List<String> uris);
-
 }

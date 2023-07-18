@@ -22,5 +22,4 @@ public class StatMapper {
                 statDto.getTimestamp()
         );
     }
-
 }

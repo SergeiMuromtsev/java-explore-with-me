@@ -2,13 +2,13 @@ package ru.practicum.events.publ.service;
 
 import ru.practicum.events.dto.EventDto;
 import ru.practicum.events.dto.EventShortDto;
-import ru.practicum.events.dto.OpenEventRequests;
+import ru.practicum.events.dto.PublicEventRequests;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface PublicEventsService {
-    List<EventShortDto> getEvents(OpenEventRequests requests, HttpServletRequest request);
+    List<EventShortDto> getEvents(PublicEventRequests requests, HttpServletRequest request);
 
     EventDto getEventsById(int eventId, HttpServletRequest request);
 }

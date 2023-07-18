@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class OpenEventRequests {
+public class PublicEventRequests {
     private String text;
     private List<Integer> categories;
     private Boolean paid;
@@ -22,16 +22,16 @@ public class OpenEventRequests {
     private Integer size;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public static OpenEventRequests of(String text,
-                                       List<Integer> categories,
-                                       String paid,
-                                       String rangeStart,
-                                       String rangeEnd,
-                                       String onlyAvailable,
-                                       String sort,
-                                       Integer from,
-                                       Integer size) {
-        OpenEventRequests request = new OpenEventRequests();
+    public static PublicEventRequests of(String text,
+                                         List<Integer> categories,
+                                         String paid,
+                                         String rangeStart,
+                                         String rangeEnd,
+                                         String onlyAvailable,
+                                         String sort,
+                                         Integer from,
+                                         Integer size) {
+        PublicEventRequests request = new PublicEventRequests();
         request.setText(text);
         if (paid != null) {
             request.setPaid(Boolean.parseBoolean(paid));
