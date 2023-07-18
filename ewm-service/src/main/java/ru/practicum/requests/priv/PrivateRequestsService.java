@@ -17,5 +17,3 @@ public interface PrivateRequestsService {
 
     ConfirmedAndRejectedRequestsListsDto changeStatusRequestsByUser(Long userId, Long eventId, EventStatusUpdateRequest eventRequestStatusUpdateRequest);
 }
-
-// TODO: 15.07.2023 refactor methods names 

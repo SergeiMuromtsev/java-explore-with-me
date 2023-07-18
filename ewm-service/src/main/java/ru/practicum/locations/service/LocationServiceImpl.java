@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class LocationServiceImpl implements LocationService{
+public class LocationServiceImpl implements LocationService {
     private final LocationRepository repository;
 
     @Override

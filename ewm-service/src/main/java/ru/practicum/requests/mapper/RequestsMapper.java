@@ -35,10 +35,10 @@ public class RequestsMapper {
         List<ParticipationRequestDto> requestsRejected = new ArrayList<>();
 
         for (ParticipationRequest request : requestList) {
-            if (request.getStatus().equals(EventUpdateRequestResultStatus .CONFIRMED)) {
+            if (request.getStatus().equals(EventUpdateRequestResultStatus.CONFIRMED)) {
                 requestsConfirmed.add(toParticipationRequestDto(request));
             }
-            if (request.getStatus().equals(EventUpdateRequestResultStatus .REJECTED)) {
+            if (request.getStatus().equals(EventUpdateRequestResultStatus.REJECTED)) {
                 requestsRejected.add(toParticipationRequestDto(request));
             }
         }
