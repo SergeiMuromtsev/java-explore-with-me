@@ -3,7 +3,6 @@ package ru.practicum.utils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import ru.practicum.exceptions.ConflictException;
-import ru.practicum.exceptions.ExceptionMessages;
 
 public class Page {
     public static Pageable paged(Integer from, Integer size) {
@@ -22,7 +21,7 @@ public class Page {
     public static void checkPaging(Integer from, Integer size) {
         if ((from == 0 && size == 0) || (from < 0 && size > 0) ||
                 (from == 0 && size < 0)) {
-            throw new ConflictException(ExceptionMessages.CONFLICT_EXCEPTION.label);
+            throw new ConflictException("paging error");
         }
     }
 }

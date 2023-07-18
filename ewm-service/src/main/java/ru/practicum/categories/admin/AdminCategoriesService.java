@@ -7,9 +7,9 @@ import ru.practicum.categories.model.Category;
 public interface AdminCategoriesService {
     CategoryDto createCategories(NewCategoryDto newCategoryDto);
 
-    void deleteCategories(int catId);
+    void deleteCategories(Long catId);
 
-    CategoryDto changeCategories(int catId, CategoryDto categoryDto);
+    CategoryDto changeCategories(Long catId, CategoryDto categoryDto);
 
-    Category findCategoriesById(int catId);
+    Category findCategoriesById(Long catId);
 }

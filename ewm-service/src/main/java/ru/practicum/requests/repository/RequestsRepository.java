@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RequestsRepository extends JpaRepository<ParticipationRequest, Integer> {
+public interface RequestsRepository extends JpaRepository<ParticipationRequest, Long> {
 
-    List<ParticipationRequest> findParticipationRequestsByRequester_Id(int userId);
+    List<ParticipationRequest> findParticipationRequestsByRequester_Id(Long userId);
 
-    Optional<ParticipationRequest> findParticipationRequestByIdAndRequester_Id(int requestId, int userId);
+    Optional<ParticipationRequest> findParticipationRequestByIdAndRequester_Id(Long requestId, Long userId);
 
-    List<ParticipationRequest> findParticipationRequestsByEventsWithRequests_IdAndEventsWithRequests_Initiator_Id(int eventId, int userId);
+    List<ParticipationRequest> findParticipationRequestsByEventsWithRequests_IdAndEventsWithRequests_Initiator_Id(Long eventId, Long userId);
 }

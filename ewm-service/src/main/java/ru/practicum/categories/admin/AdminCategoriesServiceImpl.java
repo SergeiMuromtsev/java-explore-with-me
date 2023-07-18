@@ -26,15 +26,15 @@ public class AdminCategoriesServiceImpl implements AdminCategoriesService {
     }
 
     @Override
-    public void deleteCategories(int catId) {
-        categoriesRepository.findById(catId).orElseThrow(() -> new NotFoundException(String
-                .format("Object id {} not found", catId)));
-        categoriesRepository.deleteById(catId);
+    public void deleteCategories(Long categoryId) {
+        categoriesRepository.findById(categoryId).orElseThrow(() -> new NotFoundException(String
+                .format("Object id {} not found", categoryId)));
+        categoriesRepository.deleteById(categoryId);
     }
 
     @Override
-    public CategoryDto changeCategories(int catId, CategoryDto categoryDto) {
-        Category oldCategory = categoriesRepository.findById(catId).orElseThrow();
+    public CategoryDto changeCategories(Long categoryId, CategoryDto categoryDto) {
+        Category oldCategory = categoriesRepository.findById(categoryId).orElseThrow();
         if (categoryDto.getName() != null) {
             oldCategory.setName(categoryDto.getName());
         }
@@ -43,7 +43,7 @@ public class AdminCategoriesServiceImpl implements AdminCategoriesService {
 
     @Transactional(readOnly = true)
     @Override
-    public Category findCategoriesById(int catId) {
-        return categoriesRepository.findById(catId).orElseThrow(() -> new NotFoundException("Category not found"));
+    public Category findCategoriesById(Long categoryId) {
+        return categoriesRepository.findById(categoryId).orElseThrow(() -> new NotFoundException("Category not found"));
     }
 }

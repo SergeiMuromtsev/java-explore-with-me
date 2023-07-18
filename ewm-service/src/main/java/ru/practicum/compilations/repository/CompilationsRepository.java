@@ -8,7 +8,7 @@ import ru.practicum.compilations.model.Compilation;
 import java.util.List;
 
 @Repository
-public interface CompilationsRepository extends JpaRepository<Compilation, Integer> {
+public interface CompilationsRepository extends JpaRepository<Compilation, Long> {
     List<Compilation> findCompilationsByPinnedIs(boolean pinned, Pageable page);
 }
 

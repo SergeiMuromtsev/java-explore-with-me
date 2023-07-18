@@ -33,7 +33,6 @@ public class CompilationMapper {
         for (Compilation compilation : listCompilations) {
             listCompilationDto.add(toCompilationDto(compilation));
         }
-
         return listCompilationDto;
     }
 }

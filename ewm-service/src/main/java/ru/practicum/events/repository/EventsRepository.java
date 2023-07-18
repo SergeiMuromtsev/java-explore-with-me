@@ -11,10 +11,10 @@ import ru.practicum.events.model.EventStatus;
 import java.util.Optional;
 
 @Repository
-public interface EventsRepository extends JpaRepository<Event, Integer>, QuerydslPredicateExecutor<Event> {
-    Page<Event> findEventsByInitiator_Id(int userId, Pageable page);
+public interface EventsRepository extends JpaRepository<Event, Long>, QuerydslPredicateExecutor<Event> {
+    Page<Event> findEventsByInitiator_Id(Long userId, Pageable page);
 
-    Optional<Event> findEventByIdAndInitiator_Id(int eventId, int userId);
+    Optional<Event> findEventByIdAndInitiator_Id(Long eventId, Long userId);
 
-    Optional<Event> findEventsByIdAndStateIs(int eventId, EventStatus status);
+    Optional<Event> findEventsByIdAndStateIs(Long eventId, EventStatus status);
 }

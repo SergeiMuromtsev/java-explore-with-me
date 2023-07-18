@@ -4,12 +4,11 @@ import lombok.Builder;
 import lombok.Data;
 import ru.practicum.requests.model.EventUpdateRequestResultStatus;
 
+import java.util.List;
+
 @Data
 @Builder
-public class ParticipationRequestDto {
-    private Long id;
-    private String created;
-    private Long event;
-    private Long requester;
+public class EventStatusUpdateRequest {
+    private List<Long> requestIds;
     private EventUpdateRequestResultStatus status;
 }

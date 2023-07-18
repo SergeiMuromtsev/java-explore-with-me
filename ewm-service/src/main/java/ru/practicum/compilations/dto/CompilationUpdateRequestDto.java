@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 public class CompilationUpdateRequestDto {
     @UniqueElements
-    private List<Integer> events;
+    private List<Long> events;
     private Boolean pinned;
     @Length(min = 1, max = 50)
     private String title;

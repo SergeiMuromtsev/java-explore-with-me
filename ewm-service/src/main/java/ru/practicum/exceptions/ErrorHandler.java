@@ -20,7 +20,7 @@ public class ErrorHandler {
     public ErrorApi handleNotFoundException(final NotFoundException e) {
         return ErrorApi.builder()
                 .message(e.getMessage())
-                .reason(ExceptionMessages.NOT_FOUND_EXCEPTION.label)
+                .reason("Not found exception")
                 .status(HttpStatus.NOT_FOUND.toString())
                 .timestamp(LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter))
                 .build();
@@ -31,7 +31,7 @@ public class ErrorHandler {
     public ErrorApi handleValidateException(final ValidateException e) {
         return ErrorApi.builder()
                 .message(e.getMessage())
-                .reason(ExceptionMessages.VALIDATE_EXCEPTION.label)
+                .reason("Validation exception")
                 .status(HttpStatus.BAD_REQUEST.toString())
                 .timestamp(LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter))
                 .build();
@@ -42,7 +42,7 @@ public class ErrorHandler {
     public ErrorApi handleConflictException(final ConflictException e) {
         return ErrorApi.builder()
                 .message(e.getMessage())
-                .reason(ExceptionMessages.CONFLICT_EXCEPTION.label)
+                .reason("Conflict exception")
                 .status(HttpStatus.CONFLICT.toString())
                 .timestamp(LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter))
                 .build();
@@ -53,7 +53,7 @@ public class ErrorHandler {
     public ErrorApi handleConflictException(final SQLException e) {
         return ErrorApi.builder()
                 .message(e.getMessage())
-                .reason(ExceptionMessages.CONFLICT_EXCEPTION.label)
+                .reason("SQL exception")
                 .status(HttpStatus.CONFLICT.toString())
                 .timestamp(LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter))
                 .build();
@@ -64,7 +64,7 @@ public class ErrorHandler {
     public ErrorApi handleConflictException(final MethodArgumentNotValidException e) {
         return ErrorApi.builder()
                 .message(e.getMessage())
-                .reason(ExceptionMessages.CONFLICT_EXCEPTION.label)
+                .reason("Method argument exception")
                 .status(HttpStatus.BAD_REQUEST.toString())
                 .timestamp(LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter))
                 .build();

@@ -8,7 +8,7 @@ import ru.practicum.users.dto.UserShortDto;
 @Data
 @Builder
 public class EventShortDto {
-    private Integer id;
+    private Long id;
     private String annotation;
     private CategoryDto category;
     private int confirmedRequests;

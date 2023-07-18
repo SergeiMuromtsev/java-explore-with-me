@@ -11,13 +11,13 @@ import ru.practicum.locations.model.Location;
 public class AdminUpdateEventRequest {
     @Length(min = 20, max = 2000)
     private String annotation;
-    private Integer category;
+    private Long category;
     @Length(min = 20, max = 7000)
     private String description;
     private String eventDate;
     private Location location;
     private Boolean paid;
-    private Integer participantLimit;
+    private Long participantLimit;
     private Boolean requestModeration;
     private AdminStateAction stateAction;
     @Length(min = 3, max = 120)

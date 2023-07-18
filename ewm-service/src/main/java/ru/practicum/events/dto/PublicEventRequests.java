@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PublicEventRequests {
     private String text;
-    private List<Integer> categories;
+    private List<Long> categories;
     private Boolean paid;
     private LocalDateTime rangeStart;
     private LocalDateTime rangeEnd;
@@ -23,7 +23,7 @@ public class PublicEventRequests {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public static PublicEventRequests of(String text,
-                                         List<Integer> categories,
+                                         List<Long> categories,
                                          String paid,
                                          String rangeStart,
                                          String rangeEnd,

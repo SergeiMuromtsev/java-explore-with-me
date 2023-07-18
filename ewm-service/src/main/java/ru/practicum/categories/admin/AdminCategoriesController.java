@@ -24,16 +24,16 @@ public class AdminCategoriesController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping(path = "/categories/{catId}")
-    public void deleteCategories(@PathVariable(name = "catId") int catId) {
-        log.debug("DELETE: admin/categories/{}", catId);
-        service.deleteCategories(catId);
+    @DeleteMapping(path = "/categories/{categoryId}")
+    public void deleteCategories(@PathVariable(name = "categoryId") Long categoryId) {
+        log.debug("DELETE: admin/categories/{}", categoryId);
+        service.deleteCategories(categoryId);
     }
 
-    @PatchMapping(path = "/categories/{catId}")
-    public CategoryDto changeCategories(@PathVariable(name = "catId") int catId,
+    @PatchMapping(path = "/categories/{categoryId}")
+    public CategoryDto changeCategories(@PathVariable(name = "categoryId") Long categoryId,
                                         @RequestBody @Valid CategoryDto categoryDto) {
-        log.debug("PATCH: admin/categories/{}", catId);
-        return service.changeCategories(catId, categoryDto);
+        log.debug("PATCH: admin/categories/{}", categoryId);
+        return service.changeCategories(categoryId, categoryDto);
     }
 }

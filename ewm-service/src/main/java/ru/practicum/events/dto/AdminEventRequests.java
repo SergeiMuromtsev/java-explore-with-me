@@ -11,18 +11,18 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class AdminEventRequests {
-    private List<Integer> users;
+    private List<Long> users;
     private List<State> states;
-    private List<Integer> categories;
+    private List<Long> categories;
     private LocalDateTime rangeStart;
     private LocalDateTime rangeEnd;
     private Integer from;
     private Integer size;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public static AdminEventRequests of(List<Integer> users,
+    public static AdminEventRequests of(List<Long> users,
                                         List<String> states,
-                                        List<Integer> categories,
+                                        List<Long> categories,
                                         String rangeStart,
                                         String rangeEnd,
                                         Integer from,

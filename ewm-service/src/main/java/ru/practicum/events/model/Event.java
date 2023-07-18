@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String annotation;
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -40,7 +40,7 @@ public class Event {
     private Location location;
     private boolean paid;
     @Column(name = "participant_limit")
-    private int participantLimit;
+    private Long participantLimit;
     @Column(name = "published_on")
     private LocalDateTime publishedOn;
     @Column(name = "request_moderation")

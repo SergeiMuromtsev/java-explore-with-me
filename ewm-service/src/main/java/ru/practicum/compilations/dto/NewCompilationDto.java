@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 public class NewCompilationDto {
     @UniqueElements
-    private List<Integer> events;
+    private List<Long> events;
     @Builder.Default
     private boolean pinned = false;
     @NotBlank

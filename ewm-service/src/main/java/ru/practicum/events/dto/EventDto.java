@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @Builder
 public class EventDto {
-    private Integer id;
+    private Long id;
     @NotBlank
     private String annotation;
     @NotNull
@@ -29,7 +29,7 @@ public class EventDto {
     private Location location;
     @NotNull
     private boolean paid;
-    private int participantLimit;
+    private Long participantLimit;
     private String publishedOn;
     private boolean requestModeration;
     private EventStatus state;
