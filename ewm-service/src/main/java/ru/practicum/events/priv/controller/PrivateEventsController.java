@@ -25,7 +25,7 @@ public class PrivateEventsController {
     public List<EventShortDto> getEventsByUser(@PathVariable(name = "userId") int userId,
                                                @RequestParam(name = "from", defaultValue = "0") int from,
                                                @RequestParam(name = "size", defaultValue = "10") int size) {
-        log.debug("GET: {userId}/events, userId");
+        log.debug("GET: {userId}/events", userId);
         return privateEventsService.getEventsByUser(userId, from, size);
     }
 

@@ -65,7 +65,7 @@ public class EventsMapper {
     public static List<EventShortDto> toListEventShortDto(Page<Event> listEvent) {
         List<EventShortDto> listEventShortDto = new ArrayList<>();
         for (Event event: listEvent) {
-            listEventShortDto.add(mapToEventShortDto(event));
+            listEventShortDto.add(toEventShortDto(event));
         }
         return listEventShortDto;
     }
@@ -73,7 +73,7 @@ public class EventsMapper {
     public static List<EventShortDto> toListEventShortDto(List<Event> listEvent) {
         List<EventShortDto> listEventShortDto = new ArrayList<>();
         for (Event event: listEvent) {
-            listEventShortDto.add(mapToEventShortDto(event));
+            listEventShortDto.add(toEventShortDto(event));
         }
         return listEventShortDto;
     }
@@ -96,7 +96,7 @@ public class EventsMapper {
         return listEventFullDto;
     }
 
-    public static EventShortDto mapToEventShortDto(Event event) {
+    public static EventShortDto toEventShortDto(Event event) {
         return EventShortDto.builder()
                 .id(event.getId())
                 .annotation(event.getAnnotation())

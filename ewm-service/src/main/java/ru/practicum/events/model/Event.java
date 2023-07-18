@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     private String annotation;
     @ManyToOne
     @JoinColumn(name = "category_id")

@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.categories.admin.service.AdminCategoriesService;
+import ru.practicum.categories.admin.AdminCategoriesService;
 import ru.practicum.categories.model.Category;
 import ru.practicum.events.dto.AdminEventRequests;
 import ru.practicum.events.dto.EventDto;

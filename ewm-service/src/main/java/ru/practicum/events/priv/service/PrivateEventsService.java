@@ -11,7 +11,7 @@ import java.util.List;
 public interface PrivateEventsService {
     List<EventShortDto> getEventsByUser(int userId, int from, int size);
 
-    EventDto createEvents(int userId, NewEventDto newEventDto);
+    EventDto createEvents(Integer userId, NewEventDto newEventDto);
 
     EventDto getEventsByUserFullInfo(int userId, int eventId);
 

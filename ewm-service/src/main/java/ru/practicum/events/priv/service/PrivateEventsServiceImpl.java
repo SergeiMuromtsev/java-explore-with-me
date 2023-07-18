@@ -53,14 +53,14 @@ public class PrivateEventsServiceImpl implements PrivateEventsService {
     }
 
     @Override
-    public EventDto createEvents(int userId, NewEventDto newEventDto) {
+    public EventDto createEvents(Integer userId, NewEventDto newEventDto) {
         validTime(newEventDto.getEventDate());
 
         User user = adminUserService.getUserById(userId);
         Category category = publicCategoriesService.getCatById(newEventDto.getCategory());
         locationService.save(newEventDto.getLocation());
-
-        return toEventDto(eventsRepository.save(toEvent(newEventDto, category, user)));
+        Event event = toEvent(newEventDto, category, user);
+        return toEventDto(eventsRepository.save(event));
     }
 
     @Transactional(readOnly = true)
