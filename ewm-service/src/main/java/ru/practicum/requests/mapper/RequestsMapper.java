@@ -1,5 +1,7 @@
 package ru.practicum.requests.mapper;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.practicum.requests.dto.ParticipationRequestDto;
 import ru.practicum.requests.dto.ConfirmedAndRejectedRequestsListsDto;
 import ru.practicum.requests.model.EventUpdateRequestResultStatus;
@@ -9,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RequestsMapper {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 

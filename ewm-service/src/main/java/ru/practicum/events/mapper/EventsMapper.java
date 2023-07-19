@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import ru.practicum.categories.model.Category;
 import ru.practicum.events.dto.EventDto;
@@ -17,6 +19,7 @@ import ru.practicum.users.model.User;
 import static ru.practicum.categories.mapper.CategoryMapper.toCategoryDto;
 import static ru.practicum.users.mapper.UserMapper.toUserShortDto;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class EventsMapper {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 

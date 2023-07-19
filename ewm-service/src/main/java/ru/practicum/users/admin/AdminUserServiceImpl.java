@@ -39,7 +39,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public UserDto createUsers(NewUserRequest newUserRequest) {
         log.debug("admin GET: /users");
-        return toUserDto(userRepository.save(mapToUser(newUserRequest)));
+        return toUserDto(userRepository.save(toUser(newUserRequest)));
     }
 
     @Override
