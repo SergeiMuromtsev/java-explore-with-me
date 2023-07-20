@@ -2,12 +2,12 @@ package ru.practicum.statclient;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -41,7 +41,6 @@ public class BaseClient {
                                                           @Nullable Map<String, Object> parameters,
                                                           @Nullable T body) {
         HttpEntity<T> requestEntity = new HttpEntity<>(body, defaultHeaders());
-
         ResponseEntity<Object> serverResponse;
         try {
             if (parameters != null) {
@@ -59,7 +58,6 @@ public class BaseClient {
                     }
                 }
                 String pathAndParams = builder.build().toUriString();
-
                 serverResponse = rest.exchange(pathAndParams, method, requestEntity, Object.class);
             } else {
                 serverResponse = rest.exchange(path, method, requestEntity, Object.class);
@@ -89,5 +87,4 @@ public class BaseClient {
         }
         return responseBuilder.build();
     }
-
 }

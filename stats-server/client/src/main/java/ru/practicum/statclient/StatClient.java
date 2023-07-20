@@ -1,13 +1,13 @@
 package ru.practicum.statclient;
 
 import lombok.extern.slf4j.Slf4j;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.practicum.statdto.StatDto;
 import ru.practicum.statdto.ViewStatsDto;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,36 +18,30 @@ import java.util.Map;
 @Service
 @Slf4j
 public class StatClient extends BaseClient {
-    private ObjectMapper objectMapper = new ObjectMapper();
 
-    public StatClient(@Value("${web-server.url}") String serverUrl) {
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public StatClient(@Value("${stats-server.url}") String serverUrl) {
         super(serverUrl);
     }
 
     public void saveStat(StatDto statDto) {
-        try {
-            post("/hit", statDto);
-        } catch (Exception e) {
-            log.warn("Access denied POST /hit: {}", e.getMessage());
-        }
+        post("/hit", statDto);
     }
 
     public List<ViewStatsDto> getStat(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("start", start.format(formatter));
         parameters.put("end", end.format(formatter));
         parameters.put("unique", unique);
-        if (uris != null) {
+        if (uris != null && uris.size() != 0) {
             parameters.put("uris", uris);
         }
+
         ResponseEntity<Object> response;
-        try {
-            response = get("/stats", parameters);
-        } catch (Exception e) {
-            log.warn("Access denied GET /stats: {}", e.getMessage());
-            return null;
-        }
+        response = get("/stats", parameters);
 
         if (response.getStatusCode().is2xxSuccessful()) {
             List<ViewStatsDto> viewStatsDtos = objectMapper.convertValue(
@@ -57,7 +51,7 @@ public class StatClient extends BaseClient {
             );
             return viewStatsDtos;
         } else {
-            log.warn("response error: {}", response.getStatusCode());
+            log.warn("Error in server response: {}", response.getStatusCode());
             return null;
         }
     }
