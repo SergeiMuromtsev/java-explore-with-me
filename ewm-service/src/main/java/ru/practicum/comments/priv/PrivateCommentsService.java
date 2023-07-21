@@ -8,7 +8,7 @@ import ru.practicum.comments.dto.UpdatedCommentDto;
 import java.util.List;
 
 public interface PrivateCommentsService {
-    @Transactional
+
     CommentDto create(NewCommentDto comment, Long eventId, Long userId);
 
     List<CommentDto> getAllByUser(Long userId, int from, int size);

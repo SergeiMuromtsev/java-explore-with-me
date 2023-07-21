@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class PrivateCommentsServiceImpl implements PrivateCommentsService {
     private final UserRepository usersRepository;
     private final EventsRepository eventsRepository;
