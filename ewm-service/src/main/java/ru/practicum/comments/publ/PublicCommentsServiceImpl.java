@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class PublicCommentsServiceImpl implements PublicCommentsService{
+public class PublicCommentsServiceImpl implements PublicCommentsService {
     private final CommentsRepository commentRepository;
     private final EventsRepository eventsRepository;
 

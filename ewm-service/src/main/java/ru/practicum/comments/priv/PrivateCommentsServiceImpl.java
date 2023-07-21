@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class PrivateCommentsServiceImpl implements PrivateCommentsService{
+public class PrivateCommentsServiceImpl implements PrivateCommentsService {
     private final UserRepository usersRepository;
     private final EventsRepository eventsRepository;
     private final CommentsRepository commentRepository;
