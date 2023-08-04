@@ -26,6 +26,6 @@ public class PublicCommentsController {
                                           @RequestParam(defaultValue = "0") @PositiveOrZero int from,
                                           @RequestParam(defaultValue = "10") @Positive int size) {
         log.debug("GET: all comments for event {}", eventId);
-        return publicCommentsService.getAllByEvent(eventId, from, size);
+        return publicCommentsService.getAllCommentsByEvent(eventId, from, size);
     }
 }

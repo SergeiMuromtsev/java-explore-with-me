@@ -9,15 +9,15 @@ import java.util.List;
 
 public interface PrivateCommentsService {
 
-    CommentDto create(NewCommentDto comment, Long eventId, Long userId);
+    CommentDto createComment(NewCommentDto comment, Long eventId, Long userId);
 
-    List<CommentDto> getAllByUser(Long userId, int from, int size);
+    List<CommentDto> getAllCommentsByUser(Long userId, int from, int size);
 
-    CommentDto getById(Long commentId, Long userId);
-
-    @Transactional
-    UpdatedCommentDto update(NewCommentDto comment, Long userId, Long commentId);
+    CommentDto getCommentById(Long commentId, Long userId);
 
     @Transactional
-    void delete(Long commentId, Long userId);
+    UpdatedCommentDto updateComment(NewCommentDto comment, Long userId, Long commentId);
+
+    @Transactional
+    void deleteComment(Long commentId, Long userId);
 }
