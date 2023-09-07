@@ -23,7 +23,7 @@ public class PublicCommentsServiceImpl implements PublicCommentsService {
     private final EventsRepository eventsRepository;
 
     @Override
-    public List<CommentDto> getAllByEvent(Long eventId, int from, int size) {
+    public List<CommentDto> getAllCommentsByEvent(Long eventId, int from, int size) {
         Pageable page = Page.paged(from, size);
         eventsRepository.findEventsByIdAndStateIs(eventId, EventStatus.PUBLISHED).orElseThrow(
                 () -> new NotFoundException(""));

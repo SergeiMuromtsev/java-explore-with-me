@@ -141,8 +141,6 @@ public class AdminEventsServiceImpl implements AdminEventsService {
         if (adminUpdateEventRequest.getTitle() != null) {
             event.setTitle(adminUpdateEventRequest.getTitle());
         }
-
-        log.debug("");
         return toEventDto(repository.save(event));
     }
 }

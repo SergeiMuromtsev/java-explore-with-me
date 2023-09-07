@@ -31,7 +31,7 @@ public class PrivateCommentsServiceImpl implements PrivateCommentsService {
 
     @Override
     @Transactional
-    public CommentDto create(NewCommentDto comment, Long eventId, Long userId) {
+    public CommentDto createComment(NewCommentDto comment, Long eventId, Long userId) {
         Event event = eventsRepository.findEventsByIdAndStateIs(eventId, EventStatus.PUBLISHED).orElseThrow(
                 () -> new NotFoundException("Creating comment: Event not found"));
         User user = getUserById(userId);
@@ -40,7 +40,7 @@ public class PrivateCommentsServiceImpl implements PrivateCommentsService {
     }
 
     @Override
-    public List<CommentDto> getAllByUser(Long userId, int from, int size) {
+    public List<CommentDto> getAllCommentsByUser(Long userId, int from, int size) {
         Pageable page = Page.paged(from, size);
         getUserById(userId);
         return commentRepository.findAllByAuthorId(userId, page)
@@ -48,7 +48,7 @@ public class PrivateCommentsServiceImpl implements PrivateCommentsService {
     }
 
     @Override
-    public CommentDto getById(Long commentId, Long userId) {
+    public CommentDto getCommentById(Long commentId, Long userId) {
         getUserById(userId);
         Comment comment = getCommentById(commentId);
         return CommentMapper.toCommentDto(comment);
@@ -56,7 +56,7 @@ public class PrivateCommentsServiceImpl implements PrivateCommentsService {
 
     @Override
     @Transactional
-    public UpdatedCommentDto update(NewCommentDto comment, Long userId, Long commentId) {
+    public UpdatedCommentDto updateComment(NewCommentDto comment, Long userId, Long commentId) {
         getUserById(userId);
         Comment old = getCommentById(commentId);
         Comment update = CommentMapper.toCommentWhenUpdating(comment, old);
@@ -65,7 +65,7 @@ public class PrivateCommentsServiceImpl implements PrivateCommentsService {
 
     @Override
     @Transactional
-    public void delete(Long commentId, Long userId) {
+    public void deleteComment(Long commentId, Long userId) {
         getUserById(userId);
         getCommentById(commentId);
         commentRepository.deleteById(commentId);

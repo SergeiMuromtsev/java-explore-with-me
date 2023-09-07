@@ -8,6 +8,6 @@ import javax.validation.constraints.Size;
 @Data
 public class NewCommentDto {
     @NotEmpty
-    @Size(min = 1, max = 280)
+    @Size(min = 1, max = 500)
     private String text;
 }

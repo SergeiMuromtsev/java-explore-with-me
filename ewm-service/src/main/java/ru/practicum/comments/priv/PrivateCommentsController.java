@@ -22,35 +22,35 @@ public class PrivateCommentsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentDto create(@PathVariable Long userId,
+    public CommentDto createComment(@PathVariable Long userId,
                              @RequestParam Long eventId,
                              @RequestBody @Valid NewCommentDto newComment) {
-        return privateCommentsService.create(newComment, eventId, userId);
+        return privateCommentsService.createComment(newComment, eventId, userId);
     }
 
     @GetMapping
-    public List<CommentDto> getAllByUser(@PathVariable Long userId,
+    public List<CommentDto> getAllCommentsByUser(@PathVariable Long userId,
                                                @RequestParam(name = "from", defaultValue = "0") int from,
                                                @RequestParam(name = "size", defaultValue = "10") int size) {
-        return privateCommentsService.getAllByUser(userId, from, size);
+        return privateCommentsService.getAllCommentsByUser(userId, from, size);
     }
 
     @GetMapping("/{commentId}")
     public CommentDto getById(@PathVariable Long userId,
                               @PathVariable Long commentId) {
-        return privateCommentsService.getById(commentId, userId);
+        return privateCommentsService.getCommentById(commentId, userId);
     }
 
     @PatchMapping("/{commentId}")
     public UpdatedCommentDto update(@PathVariable Long userId,
                                    @PathVariable Long commentId,
                                    @RequestBody @Valid NewCommentDto comment) {
-        return privateCommentsService.update(comment, userId, commentId);
+        return privateCommentsService.updateComment(comment, userId, commentId);
     }
 
     @DeleteMapping("/{commentId}")
     public void delete(@PathVariable Long userId,
                        @PathVariable Long commentId) {
-        privateCommentsService.delete(commentId, userId);
+        privateCommentsService.deleteComment(commentId, userId);
     }
 }
