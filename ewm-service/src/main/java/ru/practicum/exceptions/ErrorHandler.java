@@ -53,7 +53,7 @@ public class ErrorHandler {
     public ErrorApi handleConflictException(final SQLException e) {
         return ErrorApi.builder()
                 .message(e.getMessage())
-                .reason("SQL exception")
+                .reason("SQL-exception")
                 .status(HttpStatus.CONFLICT.toString())
                 .timestamp(LocalDateTime.parse(LocalDateTime.now().format(formatter), formatter))
                 .build();
