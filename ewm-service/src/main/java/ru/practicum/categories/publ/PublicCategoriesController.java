@@ -30,4 +30,5 @@ public class PublicCategoriesController {
         log.debug("GET: /categories/{}", categoryId);
         return service.getCategoriesById(categoryId);
     }
+
 }

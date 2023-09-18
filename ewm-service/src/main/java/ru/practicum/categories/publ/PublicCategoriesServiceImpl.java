@@ -41,6 +41,7 @@ public class PublicCategoriesServiceImpl implements PublicCategoriesService {
     @Transactional(readOnly = true)
     @Override
     public Category getCategoryById(Long categoryId) {
-        return categoriesRepository.findById(categoryId).orElseThrow(() -> new NotFoundException("Category not found"));
+        return categoriesRepository.findById(categoryId)
+                .orElseThrow(() -> new NotFoundException("Category not found"));
     }
 }
