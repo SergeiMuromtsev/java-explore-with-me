@@ -19,3 +19,5 @@
 
 Стек технологий:
 Java 11, Spring Boot, Maven, REST API, JDBC, H2, PostgreSQL, SQL, Hibernate - ORM, Docker
+
+![database scheme - ewm](https://github.com/muromtsev92/java-explore-with-me/assets/114882696/e902221c-5e61-4add-b706-ac458da6a356)
